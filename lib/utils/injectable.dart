@@ -6,16 +6,19 @@
  */
 
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:my_story_app/utils/secure_storage.dart';
+import 'package:my_story_app/domain/usecase/usecase.dart';
+import 'package:my_story_app/presentation/bloc/bloc.dart';
 import 'package:my_story_app/data/auth_repository_impl.dart';
-import 'package:my_story_app/data/remote/interceptors/network_interceptor.dart';
-import 'package:my_story_app/data/remote/remote_data_source.dart';
 import 'package:my_story_app/data/story_repository_impl.dart';
+import 'package:my_story_app/data/remote/remote_data_source.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:my_story_app/data/remote/interceptors/network_interceptor.dart';
 import 'package:my_story_app/domain/repository/auth_repository_contract.dart';
 import 'package:my_story_app/domain/repository/story_repository_contract.dart';
-import 'package:my_story_app/domain/usecase/usecase.dart';
-import 'package:my_story_app/utils/secure_storage.dart';
+import 'package:my_story_app/domain/usecase/story/get_category_usecase.dart';
 
 import 'http_client_options.dart';
 
@@ -30,9 +33,17 @@ class Injectable {
     registerScureStorage();
     registerHttpClient();
     registerDataSources();
+    registerUtility();
 
+    registerRepositories();
     registerAuthUseCase();
     registerStoryUseCase();
+
+    registerBloc();
+  }
+
+  void registerUtility() {
+    getIt.registerLazySingleton<ImagePicker>(() => ImagePicker());
   }
 
   void registerScureStorage() {
@@ -110,6 +121,37 @@ class Injectable {
 
     getIt.registerLazySingleton<GetStoryUseCase>(
       () => GetStoryUseCase(repository: getIt()),
+    );
+
+    getIt.registerLazySingleton<GetCategoryUsecase>(
+      () => GetCategoryUsecase(repository: getIt()),
+    );
+  }
+
+  void registerBloc() {
+    getIt.registerFactory<LoginCubit>(() => LoginCubit(login: getIt()));
+    getIt.registerFactory<UserCubit>(() => UserCubit(profileUseCase: getIt()));
+
+    getIt.registerFactory<RegisterCubit>(
+      () => RegisterCubit(registerUseCase: getIt()),
+    );
+
+    getIt.registerFactory<CreateStoryCubit>(
+      () => CreateStoryCubit(createStoryUseCase: getIt()),
+    );
+
+    getIt.registerFactory<ListStoryCubit>(
+      () => ListStoryCubit(getStoriesUseCase: getIt()),
+    );
+
+    getIt.registerFactory<DetailStoryCubit>(
+      () => DetailStoryCubit(
+        getStoryUseCase: getIt(),
+      ),
+    );
+
+    getIt.registerFactory<ListCategoryCubit>(
+      () => ListCategoryCubit(getCategoryUsecase: getIt()),
     );
   }
 }

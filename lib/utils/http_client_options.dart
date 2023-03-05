@@ -15,9 +15,9 @@ class HttpClientConfigurations {
       dotenv.env['BASE_URL'] ?? 'https://pelatihan.semanja.xyz';
 
   /// connection timeout duration in seconds
-  static get connectionTimeout => 20;
-  static get receivedTimeOut => 20;
-  static get sendTimeout => 20;
+  static Duration get connectionTimeout => const Duration(seconds: 20);
+  static Duration get receivedTimeOut => const Duration(seconds: 20);
+  static Duration get sendTimeout => const Duration(seconds: 20);
 
   /// get http options
   static BaseOptions getOptions() => BaseOptions(
