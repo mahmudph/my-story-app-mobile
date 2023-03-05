@@ -1,0 +1,33 @@
+name: run flutter test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to repository
+        uses: actions/checkout@v3
+
+      - name: Setup java environment
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "11"
+
+      - name: Setup flutter environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.8"
+
+      - name: Check flutter and get dependencies
+        run: |
+          flutter --version
+          flutter clean && flutter pub get
+
+      - name: Running flutter test
+        run: |
+          echo ${{ secrets.ENV }}| base64 -d > .env
+          flutter test

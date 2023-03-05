@@ -1,0 +1,44 @@
+name: build app
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to repository
+        uses: actions/checkout@v3
+
+      - name: Setup java environment
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "11"
+
+      - name: Setup flutter environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.8"
+
+      - name: Check flutter and get dependencies
+        run: |
+          flutter --version
+          flutter clean && flutter pub get
+
+      - name: Build apk my story app
+        run: |
+          echo ${{ secrets.ENV }}| base64 -d > .env
+          flutter build apk --release
+
+      - name: Get Build Artefact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-story-app
+          path: build/app/outputs/apk/release/app-release.apk
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: my-story-app
