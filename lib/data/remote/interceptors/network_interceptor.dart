@@ -4,7 +4,7 @@
  * Copyright (c) 2023 mahmud
  * Description
  */
-
+import 'dart:developer' as dev;
 import 'package:dio/dio.dart';
 import 'package:my_story_app/common/exceptions.dart';
 import 'package:my_story_app/utils/secure_storage.dart';
@@ -14,8 +14,40 @@ class NetworkInterceptor implements InterceptorsWrapper {
 
   const NetworkInterceptor({required this.storage});
 
+  Map<String, List<String>>? getErrorFormFiled(DioError err) {
+    if (err.type == DioErrorType.badResponse) {
+      /**
+         * when type erorr type is caused by status code
+         * then we need to get message or erorr property
+        */
+      final errorBody = Map<String, dynamic>.from(err.response!.data);
+
+      final errorValue = errorBody['error'];
+
+      if (errorBody.containsKey('error') && errorValue != null) {
+        /**
+           * check type of the erorr key if it a list with object then
+           * foreach and get the first message
+           */
+        Map<String, List<String>> resultTemp = {};
+        final result = Map<String, List<dynamic>>.from(errorValue);
+
+        for (var errorKey in result.keys) {
+          resultTemp[errorKey] = [];
+          for (var errVal in result[errorKey]!) {
+            resultTemp[errorKey]?.add(errVal);
+          }
+        }
+
+        return resultTemp;
+      }
+    }
+
+    return null;
+  }
+
   String getErorrMessage(DioError err) {
-    String message = "failed to process request please try again";
+    String message;
 
     switch (err.type) {
       case DioErrorType.connectionError:
@@ -25,36 +57,18 @@ class NetworkInterceptor implements InterceptorsWrapper {
         message = "No internet connection, please try again";
         break;
       case DioErrorType.badResponse:
-        /**
-         * when type erorr type is caused by status code
-         * then we need to get message or erorr property
-         */
         final errorBody = Map<String, dynamic>.from(err.response!.data);
-
-        final errorValue = errorBody['error'];
         final messageValue = errorBody['message'];
 
         if (errorBody.containsKey('message') && messageValue != null) {
-          /**
-           * when there is property message and it not null then use this
-           * message
-           */
           message = messageValue;
-        } else if (errorBody.containsKey('error') && errorValue != null) {
-          /**
-           * check type of the erorr key if it a list with object then
-           * foreach and get the first message
-           */
-          final mapErrorValue = Map<String, List<String>>.from(errorValue);
-
-          for (var error in mapErrorValue.keys) {
-            message += mapErrorValue[error]!.join(",");
-          }
+        } else {
+          message = "Invalid form data, pelase check your form field";
         }
-
         break;
-
       default:
+        message = "Failed to process request please try again";
+        dev.log("erorr :${err.stackTrace}");
     }
     return message;
   }
@@ -62,7 +76,13 @@ class NetworkInterceptor implements InterceptorsWrapper {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     final errMessage = getErorrMessage(err);
-    throw ServerException(message: errMessage);
+    final errorFormField = getErrorFormFiled(err);
+
+    throw ServerException(
+      msg: errMessage,
+      request: err.requestOptions,
+      errorField: errorFormField,
+    );
   }
 
   @override

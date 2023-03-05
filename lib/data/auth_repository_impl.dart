@@ -24,7 +24,7 @@ class AuthRepositoryImpl implements AuthRepositoryContract {
       final result = await remoteDataSource.login(data);
       return Right(result.data.token);
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.msg, errorFields: e.errorField));
     }
   }
 
@@ -34,7 +34,7 @@ class AuthRepositoryImpl implements AuthRepositoryContract {
       final result = await remoteDataSource.getProfile();
       return Right(result.data.toEntity());
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.msg));
     }
   }
 
@@ -46,7 +46,7 @@ class AuthRepositoryImpl implements AuthRepositoryContract {
       final result = await remoteDataSource.register(data);
       return Right(result.data.toEntity());
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.msg, errorFields: e.errorField));
     }
   }
 }

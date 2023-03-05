@@ -10,6 +10,7 @@ import 'package:dio/dio.dart';
 import 'models/auth/user_response_model.dart';
 import 'models/auth/login_response_model.dart';
 import 'models/auth/register_response_model.dart';
+import 'models/story/category_response_model.dart';
 import 'models/story/create_story_response_model.dart';
 import 'models/story/delete_story_by_id_response_model.dart';
 import 'models/story/get_story_by_id_response_model.dart';
@@ -24,6 +25,7 @@ abstract class RemoteDataSourceContract {
   Future<UserProfileResponse> getProfile();
   Future<LoginResponseModel> login(Map<String, dynamic> data);
   Future<RegisterResponseModel> register(Map<String, dynamic> data);
+  Future<CategoryResponse> getCategories();
 }
 
 class RemoteDataSource implements RemoteDataSourceContract {
@@ -73,5 +75,11 @@ class RemoteDataSource implements RemoteDataSourceContract {
   Future<DeleteStoryByIdResponseModel> deleteStoryById(int id) async {
     final result = await client.delete('/api/stories/$id');
     return DeleteStoryByIdResponseModel.fromJson(result.data);
+  }
+
+  @override
+  Future<CategoryResponse> getCategories() async {
+    final result = await client.get('/api/categories');
+    return CategoryResponse.fromJson(result.data);
   }
 }

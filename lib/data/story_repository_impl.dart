@@ -5,11 +5,12 @@
  * Description
  */
 
-import 'package:my_story_app/common/exceptions.dart';
-import 'package:my_story_app/domain/repository/story_repository_contract.dart';
-import 'package:my_story_app/domain/entities/story_entity.dart';
-import 'package:my_story_app/common/failure.dart';
 import 'package:dartz/dartz.dart';
+import 'package:my_story_app/common/failure.dart';
+import 'package:my_story_app/common/exceptions.dart';
+import 'package:my_story_app/domain/entities/category_entity.dart';
+import 'package:my_story_app/domain/entities/story_entity.dart';
+import 'package:my_story_app/domain/repository/story_repository_contract.dart';
 
 import 'remote/remote_data_source.dart';
 
@@ -26,7 +27,7 @@ class StoryRepositoryImpl implements StoryRepositoryContract {
       final result = await remoteDataSource.createStory(data);
       return Right(result.data.toEntity());
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.msg));
     }
   }
 
@@ -36,7 +37,7 @@ class StoryRepositoryImpl implements StoryRepositoryContract {
       final result = await remoteDataSource.deleteStoryById(id);
       return Right(result.message);
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.msg));
     }
   }
 
@@ -46,7 +47,7 @@ class StoryRepositoryImpl implements StoryRepositoryContract {
       final result = await remoteDataSource.getListStories();
       return Right(result.data.map((e) => e.toEntity()).toList());
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.msg));
     }
   }
 
@@ -56,7 +57,17 @@ class StoryRepositoryImpl implements StoryRepositoryContract {
       final result = await remoteDataSource.getStoryById(id);
       return Right(result.data.toEntity());
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.msg));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CategoryEntity>>> getCategories() async {
+    try {
+      final result = await remoteDataSource.getCategories();
+      return Right(result.data.map((e) => e.toEntity()).toList());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.msg));
     }
   }
 }
