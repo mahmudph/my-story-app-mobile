@@ -7,24 +7,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_story_app/presentation/bloc/bloc.dart';
 import 'package:my_story_app/utils/injectable.dart';
-import 'package:my_story_app/presentation/bloc/auth/login/login_cubit.dart';
 
-import 'login_content.dart';
+import 'splashscreen_content.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class Splashscreen extends StatelessWidget {
+  const Splashscreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocProvider<LoginCubit>(
-          create: (_) => Injectable.getIt<LoginCubit>(),
-          child: const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: LoginContent(),
+        child: BlocProvider<SplashscreenCubit>(
+          create: (context) => SplashscreenCubit(
+            secureStorage: Injectable.getIt(),
           ),
+          child: const SplashScreenContent(),
         ),
       ),
     );
