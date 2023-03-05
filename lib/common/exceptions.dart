@@ -5,14 +5,18 @@
  * Description
  */
 
-class ServerInterceptorException implements Exception {
-  final String message;
-  const ServerInterceptorException({required this.message});
-}
+import 'package:dio/dio.dart';
 
-class ServerException implements Exception {
-  final String message;
-  ServerException({required this.message});
+class ServerException extends DioError {
+  final String msg;
+  final Map<String, List<String>>? errorField;
+  final RequestOptions request;
+
+  ServerException({
+    this.errorField,
+    required this.msg,
+    required this.request,
+  }) : super(message: msg, requestOptions: request);
 }
 
 class DatabaseException implements Exception {

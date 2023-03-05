@@ -17,7 +17,12 @@ abstract class Failure extends Equatable {
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure({required String message}) : super(message: message);
+  final Map<String, List<String>>? errorFields;
+
+  const ServerFailure({
+    required String message,
+    this.errorFields,
+  }) : super(message: message);
 }
 
 class DatabaseFailure extends Failure {
