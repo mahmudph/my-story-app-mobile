@@ -7,6 +7,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:my_story_app/common/failure.dart';
+import 'package:my_story_app/domain/entities/category_entity.dart';
 import 'package:my_story_app/domain/entities/story_entity.dart';
 
 abstract class StoryRepositoryContract {
@@ -16,4 +17,6 @@ abstract class StoryRepositoryContract {
   Future<Either<Failure, StoryEntity>> createNewStory(
     Map<String, dynamic> data,
   );
+
+  Future<Either<Failure, List<CategoryEntity>>> getCategories();
 }
