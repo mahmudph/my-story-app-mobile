@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:my_story_app/common/failure.dart';
 import 'package:my_story_app/domain/entities/user_entity.dart';
 import 'package:my_story_app/domain/usecase/usecase.dart';
 
@@ -17,7 +18,15 @@ class RegisterCubit extends Cubit<RegisterState> {
     final result = await registerUseCase.invoke(data);
 
     result.fold(
-      (failure) => emit(RegisterFailureState(messaage: failure.message)),
+      (failure) {
+        final failureData = failure as ServerFailure;
+        emit(
+          RegisterFailureState(
+            messaage: failureData.message,
+            errorFormField: failureData.errorFields,
+          ),
+        );
+      },
       (data) => emit(RegisterSuccessState(user: data)),
     );
   }

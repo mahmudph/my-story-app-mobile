@@ -23,7 +23,7 @@ class DetailStorySuccessState extends DetailStoryState {
 }
 
 class DetailStoryFailureState extends DetailStoryState {
-  final String message;
+  final List<String> message;
 
   const DetailStoryFailureState({
     required this.message,

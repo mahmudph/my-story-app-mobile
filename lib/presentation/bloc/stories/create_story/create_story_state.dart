@@ -24,9 +24,11 @@ class CreateStorySuccessState extends CreateStoryState {
 
 class CreateStoryFailureState extends CreateStoryState {
   final String message;
+  final Map<String, List<String>>? errorFormFields;
 
   const CreateStoryFailureState({
     required this.message,
+    this.errorFormFields,
   });
 
   @override

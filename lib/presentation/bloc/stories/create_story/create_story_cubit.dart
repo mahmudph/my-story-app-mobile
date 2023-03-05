@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:my_story_app/common/failure.dart';
 import 'package:my_story_app/domain/entities/story_entity.dart';
 import 'package:my_story_app/domain/usecase/usecase.dart';
 
@@ -17,7 +18,15 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
     final result = await createStoryUseCase.invoke(data);
 
     result.fold(
-      (failure) => emit(CreateStoryFailureState(message: failure.message)),
+      (failure) {
+        final failureData = failure as ServerFailure;
+        emit(
+          CreateStoryFailureState(
+            message: failureData.message,
+            errorFormFields: failureData.errorFields,
+          ),
+        );
+      },
       (data) => emit(CreateStorySuccessState(story: data)),
     );
   }

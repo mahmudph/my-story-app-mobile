@@ -10,7 +10,12 @@ class UserCubit extends Cubit<UserState> {
 
   UserCubit({
     required this.profileUseCase,
-  }) : super(UserInitial());
+  }) : super(UserInitial()) {
+    /// load user profile
+    Future.delayed(const Duration(seconds: 2)).then(
+      (_) => loadUserProfile(),
+    );
+  }
 
   Future<void> loadUserProfile() async {
     emit(UserLoadingState());

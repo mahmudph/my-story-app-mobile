@@ -21,7 +21,11 @@ class RegisterSuccessState extends RegisterState {
 
 class RegisterFailureState extends RegisterState {
   final String messaage;
-  const RegisterFailureState({required this.messaage});
+  final Map<String, List<String>>? errorFormField;
+  const RegisterFailureState({
+    required this.messaage,
+    this.errorFormField,
+  });
 
   @override
   List<Object> get props => [messaage];

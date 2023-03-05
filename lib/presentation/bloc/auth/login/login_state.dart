@@ -14,8 +14,13 @@ class LoginLoadingState extends LoginState {}
 class LoginSuccessState extends LoginState {}
 
 class LoginFailureState extends LoginState {
-  final List<String> messages;
-  const LoginFailureState({required this.messages});
+  final String messages;
+  final Map<String, List<String>>? errorFormFields;
+
+  const LoginFailureState({
+    required this.messages,
+    this.errorFormFields,
+  });
 
   @override
   List<Object> get props => [messages];
