@@ -25,6 +25,10 @@ class ServerFailure extends Failure {
   }) : super(message: message);
 }
 
+
+class StorageFailure extends Failure {
+  const StorageFailure({required String message}) : super(message: message);
+}
 class DatabaseFailure extends Failure {
   const DatabaseFailure({required String message}) : super(message: message);
 }
