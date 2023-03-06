@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FormFieldWidget extends StatelessWidget {
+  final bool isTextArea;
   final String label, hint;
   final String? errorFormField;
   final TextInputType? keyboardType;
@@ -18,6 +19,7 @@ class FormFieldWidget extends StatelessWidget {
   const FormFieldWidget({
     super.key,
     this.errorFormField,
+    this.isTextArea = false,
     required this.label,
     required this.hint,
     required this.textEditingController,
@@ -36,23 +38,27 @@ class FormFieldWidget extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: TextFormField(
-              minLines: 1,
+              maxLines: isTextArea ? 3 : 1,
               keyboardType: keyboardType,
               controller: textEditingController,
               textInputAction: textInputAction,
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (e) => e == null ? '$label is invalid' : null,
+              validator: (e) =>
+                  e == null || e.isEmpty ? '$label is invalid' : null,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 12,
+                  horizontal: 0,
                   vertical: 8,
                 ),
+                prefix: const Padding(padding: EdgeInsets.only(left: 12)),
                 label: Text(
                   label,
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                   ),
                 ),
+                alignLabelWithHint: true,
+                floatingLabelBehavior: FloatingLabelBehavior.always,
                 hintText: hint,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),

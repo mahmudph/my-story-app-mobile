@@ -6,7 +6,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_story_app/domain/entities/story_entity.dart';
 
@@ -25,17 +24,18 @@ class StoryItemWidget extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return ListTile(
       leading: SizedBox(
-        width: size.width * 0.3,
+        width: size.width * 0.2,
         height: size.width * 0.3,
-        child: Image.network(
-          "${dotenv.env['BASE_URL']}${story.photo}",
-          fit: BoxFit.contain,
-        ),
+        // child: Image.network(
+        //   "${dotenv.env['HOST_URL']}${story.photo}",
+        //   fit: BoxFit.contain,
+        // ),
       ),
       title: Text(
         "${story.title} - ${story.category.name}",
         style: GoogleFonts.poppins(
-          fontSize: 16,
+          fontSize: 14,
+          color: Colors.black54,
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -52,8 +52,8 @@ class StoryItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       trailing: const Icon(
-        Icons.arrow_forward_outlined,
-        size: 24,
+        Icons.arrow_forward_ios,
+        size: 20,
       ),
       contentPadding: const EdgeInsets.symmetric(
         horizontal: 12,
