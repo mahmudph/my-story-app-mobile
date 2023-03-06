@@ -8,6 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'profile_content.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -23,8 +25,11 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
-        child: Container(),
+      body: const SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: ProfileContent(),
+        ),
       ),
     );
   }

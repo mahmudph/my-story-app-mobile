@@ -11,6 +11,8 @@ import 'package:my_story_app/presentation/bloc/bloc.dart';
 import 'package:my_story_app/presentation/ui/pages/pages.dart';
 import 'package:my_story_app/utils/injectable.dart';
 
+import 'bottom_menu_util.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -74,7 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
             create: (_) => Injectable.getIt<ListCategoryCubit>(),
           ),
         ],
-        child: getWidgetByCurrentIndex(),
+        child: BottomMenuUtil(
+          currentActiveMenu: currentActive,
+          setActiveMenu: (index) => setState(() => currentActive = index),
+          child: getWidgetByCurrentIndex(),
+        ),
       ),
     );
   }

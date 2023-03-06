@@ -189,6 +189,7 @@ class _RegisterContentState extends State<RegisterContent> {
                       hint: "Enter password confirmation",
                       textEditingController: pwdConfirmation,
                       keyboardType: TextInputType.visiblePassword,
+                      textInputAction: TextInputAction.done,
                       errorFormField: errorField,
                     );
                   },

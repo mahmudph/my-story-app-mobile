@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_story_app/presentation/bloc/bloc.dart' show DetailStoryCubit;
 import 'package:my_story_app/utils/injectable.dart';
 
@@ -20,6 +21,15 @@ class DetailStoryScreen extends StatelessWidget {
     final storyId = ModalRoute.of(context)!.settings.arguments! as int;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Detail Story",
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: BlocProvider(
           create: (_) => Injectable.getIt<DetailStoryCubit>(),

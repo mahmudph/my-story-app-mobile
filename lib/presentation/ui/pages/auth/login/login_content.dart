@@ -139,6 +139,7 @@ class _LoginContentState extends State<LoginContent> {
                   hint: "Enter password",
                   label: "Password",
                   textEditingController: password,
+                  textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.visiblePassword,
                   errorFormField: errorField,
                 );

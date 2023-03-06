@@ -4,11 +4,13 @@
  * Copyright (c) 2023 mahmud
  * Description
  */
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_story_app/presentation/bloc/stories/detail_story/detail_story_cubit.dart';
+import 'package:my_story_app/presentation/ui/widgets/content_widget.dart';
+import 'package:my_story_app/presentation/ui/widgets/info_widget.dart';
 
 class DetailStoryContent extends StatefulWidget {
   final int storyId;
@@ -30,6 +32,7 @@ class _DetailStoryContentState extends State<DetailStoryContent> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final bloc = BlocProvider.of<DetailStoryCubit>(context, listen: false);
     return BlocConsumer(
       bloc: bloc,
@@ -42,7 +45,44 @@ class _DetailStoryContentState extends State<DetailStoryContent> {
       },
       builder: (_, state) {
         if (state is DetailStorySuccessState) {
-        } else if (state is DetailStoryFailureState) {}
+          final createdAt = DateFormat.yMMMd();
+          return SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: size.width * 0.4,
+                  width: size.width * 0.4,
+                  child: Image.asset(
+                    'assets/images/avatar.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ContentWidget(
+                  text: "Title:\n${state.story.title}",
+                ),
+                ContentWidget(
+                  text: "Category:\n${state.story.category.name}",
+                ),
+                ContentWidget(
+                  text:
+                      "Created by:\n${state.story.user.name} - ${createdAt.format(state.story.createdAt)}",
+                ),
+                ContentWidget(
+                  text: "Description:\n${state.story.description}",
+                ),
+              ],
+            ),
+          );
+        } else if (state is DetailStoryFailureState) {
+          return const InfoWidget(
+            title: "Process failure",
+            message: "Get Story detail failure,please try again later",
+          );
+        }
         return Container();
       },
     );
