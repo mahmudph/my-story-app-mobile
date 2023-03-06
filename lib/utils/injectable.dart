@@ -8,6 +8,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_story_app/domain/usecase/auth/logout_usecase.dart';
 import 'package:my_story_app/utils/secure_storage.dart';
 import 'package:my_story_app/domain/usecase/usecase.dart';
 import 'package:my_story_app/presentation/bloc/bloc.dart';
@@ -92,6 +93,9 @@ class Injectable {
 
   /// register usecase of auth
   void registerAuthUseCase() {
+    getIt.registerLazySingleton(
+      () => LogoutUseCase(secureStorage: getIt()),
+    );
     getIt.registerLazySingleton<LoginUseCase>(
       () => LoginUseCase(repository: getIt(), storage: getIt()),
     );
@@ -130,7 +134,10 @@ class Injectable {
 
   void registerBloc() {
     getIt.registerFactory<LoginCubit>(() => LoginCubit(login: getIt()));
-    getIt.registerFactory<UserCubit>(() => UserCubit(profileUseCase: getIt()));
+
+    getIt.registerFactory<UserCubit>(
+      () => UserCubit(profileUseCase: getIt(), logoutUseCase: getIt()),
+    );
 
     getIt.registerFactory<RegisterCubit>(
       () => RegisterCubit(registerUseCase: getIt()),

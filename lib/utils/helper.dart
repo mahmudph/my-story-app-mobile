@@ -9,7 +9,7 @@ String? getFormErrorMessageByKey(
   Map<String, List<String>>? errors,
   String key,
 ) {
-  final isErrorField = errors?.containsKey('email') ?? false;
+  final isErrorField = errors?.containsKey(key) ?? false;
   if (isErrorField) return errors?[key]?.first;
   return null;
 }

@@ -4,7 +4,6 @@
  * Copyright (c) 2023 mahmud
  * Description
  */
-import 'dart:developer' as dev;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
@@ -24,10 +23,6 @@ class SecureStorage {
   }
 
   Future<void> setUserToken(String value) async {
-    try {
-      await storage.write(key: userTokenKey, value: value);
-    } catch (e) {
-      dev.log(e.toString());
-    }
+    await storage.write(key: userTokenKey, value: value);
   }
 }
