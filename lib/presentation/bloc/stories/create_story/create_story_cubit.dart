@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:my_story_app/common/failure.dart';
@@ -13,9 +15,9 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
     required this.createStoryUseCase,
   }) : super(CreateStoryInitial());
 
-  Future<void> handleCreateStory(Map<String, dynamic> data) async {
+  Future<void> handleCreateStory(Map<String, dynamic> data, File photo) async {
     emit(CreateStoryLoadingState());
-    final result = await createStoryUseCase.invoke(data);
+    final result = await createStoryUseCase.invoke(data, photo);
 
     result.fold(
       (failure) {

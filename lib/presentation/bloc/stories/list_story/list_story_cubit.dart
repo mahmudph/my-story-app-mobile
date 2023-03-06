@@ -11,7 +11,9 @@ class ListStoryCubit extends Cubit<ListStoryState> {
   ListStoryCubit({
     required this.getStoriesUseCase,
   }) : super(ListStoryInitial()) {
-    Future.delayed(const Duration(seconds: 1)).then((_) => loadStoriesList());
+    Future.delayed(const Duration(milliseconds: 100)).then(
+      (_) => loadStoriesList(),
+    );
   }
 
   Future<void> loadStoriesList() async {

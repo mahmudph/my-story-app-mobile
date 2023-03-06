@@ -30,3 +30,13 @@ class UserFailureState extends UserState {
   @override
   List<Object> get props => [message];
 }
+
+class UserLogoutStatusState extends UserState {
+  final String message;
+  final bool isSuccess;
+
+  const UserLogoutStatusState({
+    required this.message,
+    this.isSuccess = true,
+  });
+}

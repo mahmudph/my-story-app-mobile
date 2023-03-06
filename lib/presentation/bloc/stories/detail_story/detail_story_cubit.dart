@@ -13,7 +13,7 @@ class DetailStoryCubit extends Cubit<DetailStoryState> {
   }) : super(DetailStoryInitial());
 
   Future<void> handleGetStoryById(int id) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 100));
 
     emit(DetailStoryLoadingState());
     final result = await getStoryUseCase.invoke(id);
