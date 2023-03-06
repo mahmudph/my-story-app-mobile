@@ -16,6 +16,7 @@ class StoryEntity {
     required this.photo,
     required this.user,
     required this.category,
+    required this.createdAt,
   });
 
   final int id;
@@ -23,6 +24,7 @@ class StoryEntity {
   final String description;
   final String photo;
   final UserEntity user;
+  final DateTime createdAt;
   final CategoryEntity category;
 
   Map<String, dynamic> toJson() => {
@@ -30,6 +32,7 @@ class StoryEntity {
         "title": title,
         "description": description,
         "photo": photo,
+        'createdAt': createdAt.toIso8601String(),
         "user": user.toJson(),
         "category": category.toJson(),
       };

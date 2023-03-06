@@ -5,6 +5,7 @@
  * Description
  */
 
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:my_story_app/common/failure.dart';
 import 'package:my_story_app/domain/entities/category_entity.dart';
@@ -16,6 +17,7 @@ abstract class StoryRepositoryContract {
   Future<Either<Failure, String>> deleteStoryById(int id);
   Future<Either<Failure, StoryEntity>> createNewStory(
     Map<String, dynamic> data,
+    File image,
   );
 
   Future<Either<Failure, List<CategoryEntity>>> getCategories();
