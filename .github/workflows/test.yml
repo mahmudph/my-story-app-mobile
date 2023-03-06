@@ -3,6 +3,8 @@ name: run flutter test
 on:
   push:
   pull_request:
+    branches:
+      - main
 
 jobs:
   build:
