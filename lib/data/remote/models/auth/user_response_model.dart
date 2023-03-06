@@ -19,7 +19,7 @@ class UserProfileResponse {
 
   final DateTime timestamp;
   final String status;
-  final String message;
+  final String? message;
   final dynamic error;
   final UserDataModel data;
 

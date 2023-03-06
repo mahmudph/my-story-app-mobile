@@ -5,8 +5,8 @@
  * Description
  */
 
+import 'dart:io';
 import 'package:dio/dio.dart';
-
 import 'models/auth/user_response_model.dart';
 import 'models/auth/login_response_model.dart';
 import 'models/auth/register_response_model.dart';
@@ -20,7 +20,10 @@ abstract class RemoteDataSourceContract {
   Future<StoriesListResponseModel> getListStories();
   Future<GetStoryByIdResponseModel> getStoryById(int id);
   Future<DeleteStoryByIdResponseModel> deleteStoryById(int id);
-  Future<CreateStoryResponseModel> createStory(Map<String, dynamic> data);
+  Future<CreateStoryResponseModel> createStory(
+    Map<String, dynamic> data,
+    File image,
+  );
 
   Future<UserProfileResponse> getProfile();
   Future<LoginResponseModel> login(Map<String, dynamic> data);
@@ -66,8 +69,19 @@ class RemoteDataSource implements RemoteDataSourceContract {
   @override
   Future<CreateStoryResponseModel> createStory(
     Map<String, dynamic> data,
+    File image,
   ) async {
-    final result = await client.post('/api/stories', data: data);
+    final fileName = image.path.split('/').last;
+    final formFile = await MultipartFile.fromFile(
+      image.path,
+      filename: fileName,
+    );
+
+    final combinePaylpad = {...data, 'photo': formFile};
+
+    final formData = FormData.fromMap(combinePaylpad);
+    final result = await client.post('/api/stories', data: formData);
+
     return CreateStoryResponseModel.fromJson(result.data);
   }
 

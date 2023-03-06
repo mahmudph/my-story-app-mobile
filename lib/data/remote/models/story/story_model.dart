@@ -43,7 +43,9 @@ class StoryDataModel {
   factory StoryDataModel.fromJson(Map<String, dynamic> json) => StoryDataModel(
         id: json["id"],
         userId: json["user_id"],
-        categoryId: json["category_id"],
+        categoryId: json["category_id"].runtimeType == String
+            ? int.parse(json["category_id"] as String)
+            : json["category_id"],
         title: json["title"],
         description: json["description"],
         photo: json["photo"],
@@ -58,6 +60,7 @@ class StoryDataModel {
         title: title,
         description: description,
         photo: photo,
+        createdAt: createdAt,
         user: user.toEntity(),
         category: category.toEntity(),
       );

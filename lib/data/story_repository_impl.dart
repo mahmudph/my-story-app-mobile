@@ -5,6 +5,8 @@
  * Description
  */
 
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:my_story_app/common/failure.dart';
 import 'package:my_story_app/common/exceptions.dart';
@@ -22,12 +24,13 @@ class StoryRepositoryImpl implements StoryRepositoryContract {
   @override
   Future<Either<Failure, StoryEntity>> createNewStory(
     Map<String, dynamic> data,
+    File image,
   ) async {
     try {
-      final result = await remoteDataSource.createStory(data);
+      final result = await remoteDataSource.createStory(data, image);
       return Right(result.data.toEntity());
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.msg));
+      return Left(ServerFailure(message: e.msg, errorFields: e.errorField));
     }
   }
 
