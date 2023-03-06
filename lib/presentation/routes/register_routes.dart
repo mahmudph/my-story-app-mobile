@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:my_story_app/presentation/routes/routes.dart';
-import 'package:my_story_app/presentation/ui/pages/home.dart';
+import 'package:my_story_app/presentation/ui/pages/home/home_screen.dart';
 import 'package:my_story_app/presentation/ui/pages/pages.dart';
 
 Map<String, WidgetBuilder> registerRoutes = {
