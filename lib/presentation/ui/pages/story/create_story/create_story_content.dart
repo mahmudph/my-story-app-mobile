@@ -139,7 +139,10 @@ class _CreateStoryContentState extends State<CreateStoryContent> {
     /**
      * set to the home screen
      */
-    BottomMenuUtil.of(context).setActiveMenu(0);
+    final bloc = BlocProvider.of<ListStoryCubit>(context, listen: false);
+    bloc.loadStoriesList().then((_) {
+      BottomMenuUtil.of(context).setActiveMenu(0);
+    });
   }
 
   @override
