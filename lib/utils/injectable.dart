@@ -148,7 +148,10 @@ class Injectable {
     );
 
     getIt.registerFactory<ListStoryCubit>(
-      () => ListStoryCubit(getStoriesUseCase: getIt()),
+      () => ListStoryCubit(
+        getStoriesUseCase: getIt(),
+        deleteStoryUseCase: getIt(),
+      ),
     );
 
     getIt.registerFactory<DetailStoryCubit>(

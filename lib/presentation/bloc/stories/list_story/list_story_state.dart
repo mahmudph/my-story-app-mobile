@@ -18,6 +18,10 @@ class ListStorySuccessState extends ListStoryState {
 
   @override
   List<Object> get props => [stories];
+
+  ListStorySuccessState copyWith({List<StoryEntity>? stories}) {
+    return ListStorySuccessState(stories: stories ?? this.stories);
+  }
 }
 
 class ListStoryFailureState extends ListStoryState {
