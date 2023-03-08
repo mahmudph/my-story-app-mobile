@@ -60,7 +60,7 @@ class _DetailStoryContentState extends State<DetailStoryContent> {
                     borderRadius: BorderRadius.circular(100),
                     child: Image.network(
                       "${dotenv.env['HOST_URL']}storage/${state.story.photo}",
-                      fit: BoxFit.contain,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),

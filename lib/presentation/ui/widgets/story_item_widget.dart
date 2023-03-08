@@ -24,12 +24,15 @@ class StoryItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return ListTile(
-      leading: SizedBox(
-        width: size.width * 0.2,
-        height: size.width * 0.3,
-        child: Image.network(
-          "${dotenv.env['HOST_URL']}/storage/${story.photo}",
-          fit: BoxFit.contain,
+      leading: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(
+          width: size.width * 0.3,
+          height: size.width * 0.3,
+          child: Image.network(
+            "${dotenv.env['HOST_URL']}/storage/${story.photo}",
+            fit: BoxFit.cover,
+          ),
         ),
       ),
       title: Text(
