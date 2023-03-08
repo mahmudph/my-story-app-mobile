@@ -4,6 +4,7 @@
  * Copyright (c) 2023 mahmud
  * Description
  */
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,11 +54,14 @@ class _DetailStoryContentState extends State<DetailStoryContent> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: size.width * 0.4,
-                  width: size.width * 0.4,
-                  child: Image.asset(
-                    'assets/images/avatar.png',
-                    fit: BoxFit.contain,
+                  height: size.width * 0.5,
+                  width: size.width * 0.5,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.network(
+                      "${dotenv.env['HOST_URL']}storage/${state.story.photo}",
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),

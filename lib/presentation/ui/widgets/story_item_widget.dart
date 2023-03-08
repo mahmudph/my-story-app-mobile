@@ -6,6 +6,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_story_app/domain/entities/story_entity.dart';
 
@@ -26,10 +27,10 @@ class StoryItemWidget extends StatelessWidget {
       leading: SizedBox(
         width: size.width * 0.2,
         height: size.width * 0.3,
-        // child: Image.network(
-        //   "${dotenv.env['HOST_URL']}${story.photo}",
-        //   fit: BoxFit.contain,
-        // ),
+        child: Image.network(
+          "${dotenv.env['HOST_URL']}/storage/${story.photo}",
+          fit: BoxFit.contain,
+        ),
       ),
       title: Text(
         "${story.title} - ${story.category.name}",

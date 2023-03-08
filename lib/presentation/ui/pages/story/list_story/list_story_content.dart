@@ -19,48 +19,51 @@ class ListStoryContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<ListStoryCubit>(context, listen: false);
-    return BlocConsumer<ListStoryCubit, ListStoryState>(
-      bloc: bloc,
-      listener: (_, state) {
-        if (state is ListStoryLoadingState) {
-          EasyLoading.show();
-        } else if (state is ListStorySuccessState) {
-          if (EasyLoading.isShow) EasyLoading.dismiss();
-        } else if (state is ListStoryFailureState) {
-          if (EasyLoading.isShow) EasyLoading.dismiss();
-          EasyLoading.showError(state.message);
-        }
-      },
-      builder: (_, state) {
-        if (state is ListStorySuccessState) {
-          if (state.stories.isEmpty) {
-            return const InfoWidget(
-              title: "Data Not Found",
-              message:
-                  "Data Story not found, all stories will be show hire when you have added",
-            );
+    return RefreshIndicator(
+      onRefresh: () async => bloc.loadStoriesList(),
+      child: BlocConsumer<ListStoryCubit, ListStoryState>(
+        bloc: bloc,
+        listener: (_, state) {
+          if (state is ListStoryLoadingState) {
+            EasyLoading.show();
+          } else if (state is ListStorySuccessState) {
+            if (EasyLoading.isShow) EasyLoading.dismiss();
+          } else if (state is ListStoryFailureState) {
+            if (EasyLoading.isShow) EasyLoading.dismiss();
+            EasyLoading.showError(state.message);
           }
-          return ListView.separated(
-            itemBuilder: (_, i) {
-              return StoryItemWidget(
-                story: state.stories[i],
-                onPress: () {
-                  Navigator.pushNamed(
-                    context,
-                    RouteName.showStory,
-                    arguments: state.stories[i].id,
-                  );
-                },
+        },
+        builder: (_, state) {
+          if (state is ListStorySuccessState) {
+            if (state.stories.isEmpty) {
+              return const InfoWidget(
+                title: "Data Not Found",
+                message:
+                    "Data Story not found, all stories will be show hire when you have added",
               );
-            },
-            separatorBuilder: (_, i) => const SizedBox(height: 3),
-            itemCount: state.stories.length,
-          );
-        } else if (state is ListStoryFailureState) {
-          return Text(state.message);
-        }
-        return Container();
-      },
+            }
+            return ListView.separated(
+              itemBuilder: (_, i) {
+                return StoryItemWidget(
+                  story: state.stories[i],
+                  onPress: () {
+                    Navigator.pushNamed(
+                      context,
+                      RouteName.showStory,
+                      arguments: state.stories[i].id,
+                    );
+                  },
+                );
+              },
+              separatorBuilder: (_, i) => const SizedBox(height: 3),
+              itemCount: state.stories.length,
+            );
+          } else if (state is ListStoryFailureState) {
+            return Text(state.message);
+          }
+          return Container();
+        },
+      ),
     );
   }
 }
