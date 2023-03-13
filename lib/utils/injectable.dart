@@ -103,10 +103,6 @@ class Injectable {
     getIt.registerLazySingleton<RegisterUseCase>(
       () => RegisterUseCase(repository: getIt()),
     );
-
-    getIt.registerLazySingleton<ProfileUseCase>(
-      () => ProfileUseCase(repository: getIt()),
-    );
   }
 
   /// register usecase of story
@@ -134,10 +130,6 @@ class Injectable {
 
   void registerBloc() {
     getIt.registerFactory<LoginCubit>(() => LoginCubit(login: getIt()));
-
-    getIt.registerFactory<UserCubit>(
-      () => UserCubit(profileUseCase: getIt(), logoutUseCase: getIt()),
-    );
 
     getIt.registerFactory<RegisterCubit>(
       () => RegisterCubit(registerUseCase: getIt()),

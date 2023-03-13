@@ -29,16 +29,6 @@ class AuthRepositoryImpl implements AuthRepositoryContract {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> progile() async {
-    try {
-      final result = await remoteDataSource.getProfile();
-      return Right(result.data.toEntity());
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.msg));
-    }
-  }
-
-  @override
   Future<Either<Failure, UserEntity>> register(
     Map<String, dynamic> data,
   ) async {

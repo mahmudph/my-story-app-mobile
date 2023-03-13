@@ -12,5 +12,4 @@ import 'package:my_story_app/domain/entities/user_entity.dart';
 abstract class AuthRepositoryContract {
   Future<Either<Failure, String>> login(Map<String, dynamic> data);
   Future<Either<Failure, UserEntity>> register(Map<String, dynamic> data);
-  Future<Either<Failure, UserEntity>> progile();
 }

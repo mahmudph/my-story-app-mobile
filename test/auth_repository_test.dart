@@ -14,7 +14,6 @@ import 'package:my_story_app/common/failure.dart';
 import 'package:my_story_app/data/auth_repository_impl.dart';
 import 'package:my_story_app/data/remote/models/auth/login_response_model.dart';
 import 'package:my_story_app/data/remote/models/auth/register_response_model.dart';
-import 'package:my_story_app/data/remote/models/auth/user_response_model.dart';
 import 'package:my_story_app/data/remote/remote_data_source.dart';
 import 'package:my_story_app/domain/repository/auth_repository_contract.dart';
 
@@ -204,52 +203,6 @@ void main() {
 
       // act
       final result = await authRepository.register(payload);
-
-      // assert
-      expect(result, Left(ServerFailure(message: expectedResult.msg)));
-    });
-  });
-
-  group('test user', () {
-    test('should success and get data user', () async {
-      // stub
-      final expectedResult = UserProfileResponse.fromJson({
-        "timestamp": "2023-03-06T23:23:22.296037Z",
-        "status": "SUCCESS",
-        "message": null,
-        "error": null,
-        "data": {
-          "id": 8,
-          "name": "Shyann",
-          "email": "Isabell4@hotmail.com",
-          "email_verified_at": null,
-          "created_at": "2023-03-05T12:16:59.000000Z",
-          "updated_at": "2023-03-05T12:16:59.000000Z"
-        }
-      });
-
-      when(() => mockRemoteDataSource.getProfile()).thenAnswer(
-        (_) async => expectedResult,
-      );
-      // act
-      final result = await authRepository.progile();
-      // assert
-      expect(result.isRight(), isTrue);
-    });
-
-    test('should failure when no internet connection', () async {
-      // stub
-      final expectedResult = ServerException(
-        msg: "No internet connection, please try again",
-        request: RequestOptions(),
-      );
-
-      when(() => mockRemoteDataSource.getProfile()).thenAnswer(
-        (_) async => throw expectedResult,
-      );
-
-      // act
-      final result = await authRepository.progile();
 
       // assert
       expect(result, Left(ServerFailure(message: expectedResult.msg)));

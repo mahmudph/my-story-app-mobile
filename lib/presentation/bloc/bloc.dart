@@ -7,7 +7,6 @@
 
 export 'auth/login/login_cubit.dart';
 export 'auth/register/register_cubit.dart';
-export 'auth/user/user_cubit.dart';
 
 export 'stories/create_story/create_story_cubit.dart';
 export 'stories/detail_story/detail_story_cubit.dart';

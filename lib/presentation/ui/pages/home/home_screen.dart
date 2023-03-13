@@ -37,9 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         widget = const CreateStoryScreen();
         break;
-      case 2:
-        widget = const ProfileScreen();
-        break;
       default:
         widget = const ListStoryScreen();
     }
@@ -68,9 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
         providers: [
           BlocProvider<ListStoryCubit>(
             create: (_) => Injectable.getIt<ListStoryCubit>(),
-          ),
-          BlocProvider<UserCubit>(
-            create: (_) => Injectable.getIt<UserCubit>(),
           ),
           BlocProvider<ListCategoryCubit>(
             create: (_) => Injectable.getIt<ListCategoryCubit>(),
