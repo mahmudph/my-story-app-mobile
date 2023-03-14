@@ -15,8 +15,8 @@ Map<String, WidgetBuilder> registerRoutes = {
   RouteName.register: (_) => const RegisterScreen(),
   RouteName.home: (_) => const HomeScreen(),
   // RouteName.profile: (_) => const ProfileScreen(),
-  // RouteName.storyList: (_) => const ListStoryScreen(),
-  // RouteName.newStory: (_) => const CreateStoryScreen(),
+  RouteName.storyList: (_) => const ListStoryScreen(),
+  RouteName.newStory: (_) => const CreateStoryScreen(),
   RouteName.showStory: (_) => const DetailStoryScreen(),
   RouteName.splashscreen: (_) => const Splashscreen(),
 };

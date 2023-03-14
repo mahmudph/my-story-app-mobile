@@ -12,7 +12,7 @@ class RouteName {
   // static String get profile => '/auth/profile';
   static String get home => '/home';
 
-  // static String get storyList => '/story';
+  static String get storyList => '/story';
   static String get showStory => '/story/detail';
-  // static String get newStory => '/story/new';
+  static String get newStory => '/story/new';
 }
