@@ -1,6 +1,6 @@
 # my_story_app
 
-A new Flutter project.
+A new Flutter project build for pelatihan.
 
 ## Getting Started
 
